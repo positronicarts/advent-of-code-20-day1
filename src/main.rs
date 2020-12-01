@@ -23,8 +23,7 @@ fn main() {
             println!("Input error!!");
         }
     } else {
-        let outer_list = numbers.clone();
-        for num in outer_list {
+        for num in &numbers {
             let result = seek_target(&numbers, TARGET - num);
             if let Some((a, b)) = result {
                 println!("Product is {0}", num * a * b);
