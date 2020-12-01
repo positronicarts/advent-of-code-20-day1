@@ -1,7 +1,7 @@
+use clap::Clap;
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
-use clap::Clap;
 
 const TARGET: i32 = 2020;
 
@@ -12,7 +12,6 @@ struct Opts {
 }
 
 fn main() {
-
     let opts: Opts = Opts::parse();
     let numbers = get_numbers(opts.input);
 
@@ -22,7 +21,7 @@ fn main() {
             println!("Product is {0}", a * b);
         } else {
             println!("Input error!!");
-        }       
+        }
     } else {
         let outer_list = numbers.clone();
         for num in outer_list {
@@ -30,12 +29,12 @@ fn main() {
             if let Some((a, b)) = result {
                 println!("Product is {0}", num * a * b);
                 break;
-            } 
-        }    
+            }
+        }
     }
 }
 
-fn seek_target(numbers: &Vec::<i32>, target: i32) -> Option<(i32, i32)> {
+fn seek_target(numbers: &[i32], target: i32) -> Option<(i32, i32)> {
     let mut targets = Vec::<i32>::new();
     for num in numbers {
         let balance = target - num;
@@ -45,13 +44,12 @@ fn seek_target(numbers: &Vec::<i32>, target: i32) -> Option<(i32, i32)> {
         } else {
             println!("Pushing {0} from {1}", balance, num);
             targets.push(balance);
-        }         
+        }
     }
     None
 }
 
-fn get_numbers(filename: String) -> Vec::<i32> {
-
+fn get_numbers(filename: String) -> Vec<i32> {
     let mut numbers = Vec::<i32>::new();
 
     if let Ok(lines) = read_lines(filename) {
@@ -68,7 +66,9 @@ fn get_numbers(filename: String) -> Vec::<i32> {
 }
 
 fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where P: AsRef<Path>, {
+where
+    P: AsRef<Path>,
+{
     let file = File::open(filename)?;
     Ok(io::BufReader::new(file).lines())
 }
