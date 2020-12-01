@@ -17,7 +17,7 @@ fn main() {
     let numbers = get_numbers(opts.input);
 
     if opts.part == 1 {
-        let result = seek_target(numbers, TARGET);
+        let result = seek_target(&numbers, TARGET);
         if let Some((a, b)) = result {
             println!("Product is {0}", a * b);
         } else {
@@ -26,7 +26,7 @@ fn main() {
     } else {
         let outer_list = numbers.clone();
         for num in outer_list {
-            let result = seek_target(numbers.clone(), TARGET - num);
+            let result = seek_target(&numbers, TARGET - num);
             if let Some((a, b)) = result {
                 println!("Product is {0}", num * a * b);
                 break;
@@ -35,13 +35,13 @@ fn main() {
     }
 }
 
-fn seek_target(numbers: Vec::<i32>, target: i32) -> Option<(i32, i32)> {
+fn seek_target(numbers: &Vec::<i32>, target: i32) -> Option<(i32, i32)> {
     let mut targets = Vec::<i32>::new();
     for num in numbers {
         let balance = target - num;
         if targets.contains(&num) {
             println!("{0} balances {1}!", num, balance);
-            return Some((num, balance));
+            return Some((*num, balance));
         } else {
             println!("Pushing {0} from {1}", balance, num);
             targets.push(balance);
